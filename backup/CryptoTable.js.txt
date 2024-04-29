@@ -1,0 +1,197 @@
+import * as React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { useCryptoData } from "../api/getCryptoApi";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Typography from "@mui/material/Typography";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import SparklineChart from "./SparkLine";
+import { Button } from "@mui/material";
+import { useState } from "react";
+
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto, Arial, sans-serif", // replace with your desired font
+  },
+});
+
+export default function CryptoTable() {
+  const cryptoData = useCryptoData();
+  const [cryptoNumber, setCryptoNumber] = useState(10);
+  const handleViewAll = () => {
+    setCryptoNumber(prevCryptoNumber => prevCryptoNumber === 10 ? cryptoData.length : 10);
+  };
+
+  return (
+    <ThemeProvider theme={theme} >
+      <TableContainer component={Paper} elevation={0} variant="outlined" sx={{marginBottom: '30px', borderRadius:'20px'}}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <EmojiEventsIcon color="primary" />
+                  <span style={{ marginLeft: "4px" }}>Rank</span>
+                </div>
+              </TableCell>
+              <TableCell>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <MonetizationOnIcon color="secondary" />
+                  <span style={{ marginLeft: "4px" }}>Coin</span>
+                </div>
+              </TableCell>
+              <TableCell align="right">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AttachMoneyIcon color="action" />
+                  <span style={{ marginLeft: "4px" }}>Price</span>
+                </div>
+              </TableCell>
+              <TableCell align="right">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AccountBalanceWalletIcon color="disabled" />
+                  <span style={{ marginLeft: "4px" }}>Market Cap</span>
+                </div>
+              </TableCell>
+              <TableCell align="right">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TrendingUpIcon color="success" />
+                  <span style={{ marginLeft: "4px" }}>High 24h</span>
+                </div>
+              </TableCell>
+              <TableCell align="right">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TrendingDownIcon color="error" />
+                  <span style={{ marginLeft: "4px" }}>Low 24h</span>
+                </div>
+              </TableCell>
+              <TableCell align="right">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <DateRangeIcon color="info" />
+                  <span style={{ marginLeft: "4px" }}>Last 7 Days</span>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cryptoData.slice(0, cryptoNumber).map((data) => (
+              <TableRow key={data.id}>
+                <TableCell align="center">{data.market_cap_rank}</TableCell>
+                <TableCell>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <img
+                      src={data.image}
+                      alt={data.name}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "8px",
+                        border: "2px solid #000",
+                        borderRadius: "50%",
+                      }}
+                    />
+                    {data.name}
+                    <span
+                      style={{
+                        marginLeft: "5px",
+                        textTransform: "uppercase",
+                        opacity: "0.5",
+                      }}
+                    >
+                      {data.symbol}
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography fontFamily="Monospace" variant="body1">
+                    ${data.current_price}
+                  </Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography fontFamily="Monospace" variant="body1">
+                    ${data.market_cap}
+                  </Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography fontFamily="Monospace" variant="body1">
+                    ${data.high_24h}
+                  </Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography fontFamily="Monospace" variant="body1">
+                    ${data.low_24h}
+                  </Typography>
+                </TableCell>
+                <TableCell align="center" sx={{p : '5px'}}>
+                 <SparklineChart data={data.sparkline_in_7d.price} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Button onClick={handleViewAll} variant="contained" color="primary" sx={{margin: '20px', borderRadius:'20px'}}>
+          {cryptoNumber === 10 ? "View All" : "View Less"}
+        </Button>
+      </TableContainer>
+    </ThemeProvider>
+  );
+}

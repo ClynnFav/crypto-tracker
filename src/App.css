@@ -1,0 +1,239 @@
+.my-project {
+  width: 100%;
+  max-width: 100%; 
+}
+
+@media screen and (min-width: 600px) {
+  .my-project {
+    max-width: 768px; /* Adjust maximum width for tablets */
+  }
+}
+
+@media screen and (min-width: 960px) {
+  /* Apply styles for screens wider than 960px (e.g., desktops) */
+  .my-project {
+    max-width: 1200px; /* Adjust maximum width for desktops */
+  }
+}
+
+.card__content--title {
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-head span {
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.table-body span {
+  font-size: 10px;
+  margin-left: 4px;
+}
+
+.buy-button {
+  background-color: white;
+  color: #4CAF50;;
+  border: 1px solid #4CAF50;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 8px;
+  margin-left: 10px;
+}
+
+.buy-button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.sell-button {
+  background-color: white;
+  color: red;;
+  border: 1px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 8px;
+  margin-left: 10px;
+}
+.sell-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+.open {
+  display: block;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 24px;
+  color: #888;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+.body {
+  padding-top: 20px;
+}
+
+.result {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.open-modal-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #04666d;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  font-weight: 700;
+}
+
+.open-modal-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.open-modal-button:active::before {
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.open-modal-button span {
+  position: relative;
+  z-index: 1;
+}
+
+.open-modal-button:hover {
+  color: #000;
+  background-color: #fff;
+  transition: color 0.4s, background-color 0.4s;
+}
+
+@keyframes moveEllipsis {
+  0% {
+    text-indent: 0;
+  }
+  50% {
+    text-indent: -0.1em;
+  }
+  100% {
+    text-indent: 0;
+  }
+}
+
+.thinking-ellipsis {
+  display: inline-block;
+  position: relative;
+  font-style: italic;
+}
+
+.thinking-ellipsis span {
+  display: inline-block;
+  opacity: 0;
+  animation: pulse 1s infinite;
+}
+
+.thinking-ellipsis span:nth-child(2) {
+  animation-delay: 0.1s; 
+}
+
+.thinking-ellipsis span:nth-child(3) {
+  animation-delay: 0.2s; 
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.negative {
+  color: red;
+  font-style: italic;;
+}
+
+.positive {
+  color: green;
+  font-style: italic;
+}
+
+.crypto--img {
+  height: 40px;
+  width: 40px;
+  border: 3px solid #000;
+  border-radius: 50%;
+  margin-right: 10px;
+}
