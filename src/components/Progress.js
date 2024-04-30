@@ -27,12 +27,11 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function LinearWithValueLabel({ currentEpoch }) {
-    const totalEpochs = 2000;
-    const [progress, setProgress] = React.useState((currentEpoch / totalEpochs) * 100);
+export default function LinearWithValueLabel({ currentEpoch, numberEpoch }) {
+    const [progress, setProgress] = React.useState((currentEpoch / numberEpoch) * 100);
   
     React.useEffect(() => {
-      setProgress((currentEpoch / totalEpochs) * 100); // Calculate progress as a percentage of total epochs
+      setProgress((currentEpoch / numberEpoch) * 100); // Calculate progress as a percentage of total epochs
     }, [currentEpoch]); // Add currentEpoch to the dependency array
   
     return (

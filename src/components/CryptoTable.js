@@ -7,18 +7,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import Typography from "@mui/material/Typography";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SparklineChart from "./SparkLine";
 import { Button } from "@mui/material";
 import { useCryptoData } from "../api/getCryptoApi";
 import BuyModal from "./BuyModal";
+import WalletIcon from "@mui/icons-material/Wallet";
+import WalletModal from "./WalletModal";
 
 const theme = createTheme({
   typography: {
@@ -30,7 +32,16 @@ export default function CryptoTable() {
   const cryptoData = useCryptoData();
   const [totalCell, setTotalCell] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWalletOpen, setIsWalletOpen] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
+
+  const handleOpenWallet = () => {
+    setIsWalletOpen(true);
+  }
+
+  const handleCloseWallet = () => {
+    setIsWalletOpen(false);
+  }
 
   const handleOpenModal = (data) => {
     setSelectedCrypto(data);
@@ -67,9 +78,32 @@ export default function CryptoTable() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Typography variant="h5" sx={{ m: "10px" }}>
-        Cryptocurrency Prices by Market Cap
-      </Typography>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+      >
+        <Typography variant="h5" sx={{ m: "10px" }}>
+          Cryptocurrency Prices by Market Cap
+        </Typography>
+        <Button
+        onClick={handleOpenWallet}
+        variant="contained"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            borderRadius: "10px",
+            padding: "8px",
+          }}
+        >
+          <WalletIcon sx={{ fontSize: 40 }} />
+          <Typography variant="h8">My Wallet</Typography>
+        </Button>
+      </div>
       <TableContainer
         component={Paper}
         elevation={0}
@@ -111,7 +145,7 @@ export default function CryptoTable() {
                     justifyContent: "center",
                   }}
                 >
-                  <AttachMoneyIcon
+                  <CurrencyExchangeIcon
                     sx={{ backgroundColor: "gold", borderRadius: "50%" }}
                   />
                   <span>Price</span>
@@ -287,6 +321,12 @@ export default function CryptoTable() {
             isOpen={isModalOpen}
             handleClose={handleCloseModal}
             cryptoData={selectedCrypto}
+          />
+        ) : null}
+        {isWalletOpen ? (
+          <WalletModal
+            isOpen={isWalletOpen}
+            handleClose={handleCloseWallet}
           />
         ) : null}
       </TableContainer>

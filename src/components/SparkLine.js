@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 const SparklineChart = ({ data }) => {
   const sparkLine = data.sparkline_in_7d.price;
+  const numberEpoch = 2000;
   const color = sparkLine[sparkLine.length - 1] > sparkLine[0] ? "green" : "red";
   const [isOpen, setIsOpen] = useState(false);
   const [currentEpoch, setCurrentEpoch] = useState(0);
@@ -23,7 +24,7 @@ const SparklineChart = ({ data }) => {
   };
 
   useEffect(() => {
-    const predictNextWeek = async () => {
+    const predictNextPrice = async () => {
       if (!analyzedRequested) return;
       // Enable GPU acceleration
   await tf.setBackend('webgl');
@@ -49,7 +50,7 @@ const SparklineChart = ({ data }) => {
     }
   };
   
-  await model.fit(xs, ys, { epochs: 2000, callbacks });
+  await model.fit(xs, ys, { epochs: numberEpoch, callbacks });
   return model;
   };
 
@@ -66,7 +67,7 @@ const SparklineChart = ({ data }) => {
   setAnalyzed(updateDecimal);
     };
 
-    predictNextWeek();
+    predictNextPrice();
   }, [analyzedRequested]);
 
   return (
@@ -89,7 +90,7 @@ const SparklineChart = ({ data }) => {
       >
         Analyze
       </Button>
-      <AnalyzeModal isOpen={isOpen} onClose={closeModal} crypto={data} analyzed={analyzed} currentEpoch={currentEpoch} />
+      <AnalyzeModal numberEpoch={numberEpoch} isOpen={isOpen} onClose={closeModal} crypto={data} analyzed={analyzed} currentEpoch={currentEpoch} />
     </div>
   );
 };

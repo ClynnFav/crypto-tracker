@@ -10,6 +10,7 @@ const AnalyzeModal = ({
   analyzed,
   currentEpoch,
   children,
+  numberEpoch,
 }) => {
   const calculatePercentageChange = (oldValue, newValue) => {
     const percentageChange = ((newValue - oldValue) / oldValue) * 100;
@@ -55,7 +56,7 @@ const AnalyzeModal = ({
         <div
           className="ellipsis"
           style={
-            currentEpoch < 2000 ? { display: "block" } : { display: "none" }
+            currentEpoch < numberEpoch ? { display: "block" } : { display: "none" }
           }
         >
           <p className="thinking-ellipsis">
@@ -63,11 +64,11 @@ const AnalyzeModal = ({
             <span> .</span>
             <span> .</span>
           </p>
-          <LinearWithValueLabel currentEpoch={currentEpoch}/>
+          <LinearWithValueLabel numberEpoch={numberEpoch} currentEpoch={currentEpoch}/>
         </div>
         <div
           className="body"
-          style={currentEpoch > 1999 ? { display: "block" } : { display: "none" }}
+          style={currentEpoch > numberEpoch - 1 ? { display: "block" } : { display: "none" }}
         >
           <img src={crypto.image} alt={crypto.name} className="crypto--img" />
           <p className="result">$ {analyzed}</p>
